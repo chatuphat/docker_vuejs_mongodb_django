@@ -1,0 +1,65 @@
+version: "3.1"
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: test-mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data-db:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mongoadmin
+      MONGO_INITDB_DATABASE: student
+
+  vuejs:
+    container_name: vuejs
+    build:
+      context: ./vite-project
+      dockerfile: Dockerfile-vue
+    image: hanu4u89/docker-vuejs
+    ports:
+      - "8081:8080"
+
+  django_recipe_api:
+    container_name: django
+    build:
+      context: ./backend/django_recipe_api
+      dockerfile: Dockerfile-django
+    ports:
+      - "8000:8000"
+    links:
+      - mongodb
+    volumes:
+      - ./backend/django_recipe_api:/django_recipe_api
+    command: sh -c "python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - migration
+
+  make_migrations:
+    build:
+      context: ./backend/django_recipe_api
+      dockerfile: Dockerfile-django
+    image: app
+    command: python manage.py makemigrations
+    volumes:
+      - ./backend/django_recipe_api:/django_recipe_api
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+
+  migration:
+    build:
+      context: ./backend/django_recipe_api
+      dockerfile: Dockerfile-django
+    image: app
+    command: python manage.py migrate
+    volumes:
+      - ./backend/django_recipe_api:/django_recipe_api
+    links:
+      - mongodb
+    depends_on:
+      - make_migrations
