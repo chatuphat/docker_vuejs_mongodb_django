@@ -21,6 +21,8 @@ Ref
 
 - [Django-MongoDb-CRUD-RESTAPI](https://github.com/rishi772001/Django-MongoDb-CRUD-RESTAPI/blob/main/django_mongodb/settings.py).
 
+- [How to enable CORS headers in your Django Project](https://www.geeksforgeeks.org/how-to-enable-cors-headers-in-your-django-project/)
+
 ## Our plan:
 
 ![Drag Racing](img.jpg)

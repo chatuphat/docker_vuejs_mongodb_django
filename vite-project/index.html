@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Vue</title>
+    <meta charset="utf-8" />
+    <title>Vue.js Get API Example</title>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="app">
+      <ul>
+        <li v-for="recipe in recipes" :key="recipe.id">{{ recipe.title }}</li>
+      </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          recipes: [],
+        },
+        mounted() {
+          fetch("http://localhost:8000/recipe/")
+            .then((response) => response.json())
+            .then((data) => {
+              this.recipes = data;
+            })
+            .catch((error) => console.error(error));
+        },
+      });
+    </script>
   </body>
 </html>
