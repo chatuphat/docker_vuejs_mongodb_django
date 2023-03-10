@@ -7,7 +7,8 @@
   <body>
     <div id="app">
       <ul>
-        <li v-for="recipe in recipes" :key="recipe.id">{{ recipe.title }}</li>
+        <li v-for="recipe in recipes" :key="recipe.id">{{ recipe.time_minutes }}</li>
+        </li>
       </ul>
     </div>
 
@@ -19,7 +20,7 @@
           recipes: [],
         },
         mounted() {
-          fetch("http://localhost:800/recipe/")
+          fetch("http://localhost:8000/recipe/")
             .then((response) => response.json())
             .then((data) => {
               this.recipes = data;

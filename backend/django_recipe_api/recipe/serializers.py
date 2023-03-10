@@ -27,5 +27,13 @@ class DoctorSerializer(serializers.ModelSerializer):
         model = Doctors
         fields = ['reviseNo',
                   'code',
-                  'reviseDate'
+                  'firstNameTH',
+                  'lastNameTH',
+                  'firstNameEN',
+                  'lastNameEN',
+                  'description',
+                  'remark',
+                  'reviseBy',
+                  'isActive',
+                  'reviseDate',
                   ]
